@@ -14,6 +14,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate release files changed
+        run: |
+          BEFORE_SHA="${{ github.event.before }}"
+          CURRENT_SHA="${{ github.sha }}"
+
+          if [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            echo "Initial push detected. Skipping file-change validation."
+            exit 0
+          fi
+
+          CHANGED_FILES=$(git diff --name-only "$BEFORE_SHA" "$CURRENT_SHA")
+
+          if ! echo "$CHANGED_FILES" | grep -qx "VERSION"; then
+            echo "VERSION was not updated in this push."
+            echo "Every push to main must increment VERSION (Vx.x.x)."
+            exit 1
+          fi
+
+          if ! echo "$CHANGED_FILES" | grep -qx "CHANGELOG.md"; then
+            echo "CHANGELOG.md was not updated in this push."
+            echo "Every push to main must document release notes."
+            exit 1
+          fi
 
       - name: Read VERSION
         id: version
@@ -26,34 +52,22 @@ jobs:
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Ensure tag exists and is consistent
-        id: tag_guard
+      - name: Create unique tag for this commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           TAG="${{ steps.version.outputs.version }}"
-          HEAD_SHA="${{ github.sha }}"
 
           if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
-            TAG_SHA=$(git ls-remote --tags origin "refs/tags/${TAG}" | awk '{print $1}')
-
-            if [ "$TAG_SHA" = "$HEAD_SHA" ]; then
-              echo "Tag ${TAG} already exists and points to current commit."
-              echo "release_needed=false" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-
-            echo "Tag ${TAG} already exists but points to ${TAG_SHA}, while HEAD is ${HEAD_SHA}."
-            echo "Bump VERSION before pushing to main (example: V1.0.2)."
+            echo "Tag ${TAG} already exists on origin."
+            echo "Increment VERSION before pushing (example: V1.0.3)."
             exit 1
           fi
 
-          git tag "${TAG}"
+          git tag -a "${TAG}" -m "Release ${TAG}"
           git push origin "${TAG}"
-          echo "release_needed=true" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
-        if: steps.tag_guard.outputs.release_needed == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.version }}

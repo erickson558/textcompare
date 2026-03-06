@@ -109,13 +109,13 @@ Para cada commit de producto:
 2. Actualizar `CHANGELOG.md`.
 3. Commit con mensaje claro.
 4. Push a `main`.
-5. Workflow crea release/tag usando la version del archivo.
+5. Workflow valida `Vx.x.x`, crea tag anotado y genera release automaticamente.
 
 Checklist recomendado por commit:
 
 1. Confirmar que `VERSION`, `CHANGELOG.md` y app muestran la misma version.
-2. Crear tag Git igual al contenido de `VERSION`.
-3. Hacer `push` de rama y tags.
+2. No reutilizar versiones previas; cada commit en `main` debe tener una version nueva.
+3. Hacer `push` solo de la rama `main` (el workflow se encarga del tag/release).
 
 ## Seguridad y buenas practicas
 

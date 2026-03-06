@@ -1,5 +1,11 @@
 # Changelog
 
+## V1.0.3 - 2026-03-05
+
+- Workflow de release endurecido para exigir `VERSION` y `CHANGELOG.md` actualizados en cada push a `main`.
+- Bloqueo de tags duplicados para forzar una version nueva por commit.
+- Creacion de tag anotado y release automatica por cada version nueva.
+
 ## V1.0.2 - 2026-03-05
 
 - Correccion del workflow de release para evitar fallo cuando el tag ya existe en el mismo commit.
