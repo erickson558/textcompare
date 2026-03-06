@@ -64,7 +64,7 @@ textcompare/
 
 ### `POST backend/api/compare.php`
 
-Request JSON:
+Solicitud JSON:
 
 ```json
 {
@@ -73,7 +73,7 @@ Request JSON:
 }
 ```
 
-Response JSON:
+Respuesta JSON:
 
 ```json
 {
@@ -123,13 +123,13 @@ Checklist recomendado por commit:
 
 ## Botones y funciones principales
 
-- `Email this comparison`: abre el cliente de correo con ambos textos en el cuerpo.
-- `Edit texts ...` / `Hide texts`: muestra u oculta los editores.
-- `Switch texts`: intercambia texto A y B y relanza la comparacion.
-- `Compare!`: solicita el diff al backend y actualiza paneles + metricas.
-- `Clear all`: limpia ambos textos y reinicia resultados.
-- `Copy left` / `Copy right`: copia texto fuente al portapapeles.
-- `Differences only`: oculta temporalmente lineas sin cambios.
+- `Enviar por correo`: abre el cliente de correo con ambos textos en el cuerpo.
+- `Editar textos ...` / `Ocultar textos`: muestra u oculta los editores.
+- `Intercambiar textos`: intercambia texto A y B y relanza la comparacion.
+- `Comparar`: solicita el diff al backend y actualiza paneles + metricas.
+- `Limpiar todo`: limpia ambos textos y reinicia resultados.
+- `Copiar izquierda` / `Copiar derecha`: copia texto fuente al portapapeles.
+- `Solo diferencias`: oculta temporalmente lineas sin cambios.
 
 ## Estilo visual y animaciones
 

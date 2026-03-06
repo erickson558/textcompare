@@ -27,7 +27,7 @@
   function applyTheme(theme) {
     const selected = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', selected);
-    themeToggle.textContent = selected === 'dark' ? 'Switch to Light' : 'Switch to Dark';
+    themeToggle.textContent = selected === 'dark' ? 'Cambiar a claro' : 'Cambiar a oscuro';
     localStorage.setItem(themeKey, selected);
   }
 
@@ -42,9 +42,9 @@
 
   function setStats(stats) {
     statsBar.innerHTML = [
-      `<span>Similarity: ${stats.similarity ?? '--'}%</span>`,
-      `<span>Equal lines: ${stats.equalLines ?? '--'}</span>`,
-      `<span>Lines A/B: ${stats.leftLines ?? '--'}/${stats.rightLines ?? '--'}</span>`
+      `<span>Similitud: ${stats.similarity ?? '--'}%</span>`,
+      `<span>Lineas iguales: ${stats.equalLines ?? '--'}</span>`,
+      `<span>Lineas A/B: ${stats.leftLines ?? '--'}/${stats.rightLines ?? '--'}</span>`
     ].join('');
   }
 
@@ -108,12 +108,12 @@
       })
       .join('');
 
-    container.innerHTML = html || '<div class="result-line equal"><span class="line-number">1</span><span class="line-text">No differences detected.</span></div>';
+    container.innerHTML = html || '<div class="result-line equal"><span class="line-number">1</span><span class="line-text">No se detectaron diferencias.</span></div>';
   }
 
   function renderDiff(operations = []) {
     if (!operations.length) {
-      const empty = [{ type: 'equal', leftLine: 1, rightLine: 1, leftText: 'No differences detected.', rightText: 'No differences detected.' }];
+      const empty = [{ type: 'equal', leftLine: 1, rightLine: 1, leftText: 'No se detectaron diferencias.', rightText: 'No se detectaron diferencias.' }];
       renderResultPanel(leftResult, empty, 'left');
       renderResultPanel(rightResult, empty, 'right');
       return;
@@ -126,21 +126,21 @@
 
   function setEditorsVisible(isVisible) {
     editorsArea.classList.toggle('hidden', !isVisible);
-    editToggleBtn.textContent = isVisible ? 'Hide texts' : 'Edit texts ...';
+    editToggleBtn.textContent = isVisible ? 'Ocultar textos' : 'Editar textos ...';
     localStorage.setItem(editorVisibilityKey, isVisible ? '1' : '0');
   }
 
   function setDiffOnly(enabled) {
     isShowingDiffOnly = enabled;
     showDiffOnlyBtn.classList.toggle('active', enabled);
-    showDiffOnlyBtn.textContent = enabled ? 'Show all lines' : 'Differences only';
+    showDiffOnlyBtn.textContent = enabled ? 'Ver todas las lineas' : 'Solo diferencias';
     localStorage.setItem(diffOnlyKey, enabled ? '1' : '0');
   }
 
   function makeMailtoUrl() {
-    const subject = encodeURIComponent('Nebula Compare result');
+    const subject = encodeURIComponent('Resultado de Nebula Compare');
     const body = encodeURIComponent(
-      ['Left text:', leftText.value, '', 'Right text:', rightText.value].join('\n')
+      ['Texto A:', leftText.value, '', 'Texto B:', rightText.value].join('\n')
     );
 
     return `mailto:?subject=${subject}&body=${body}`;
@@ -149,12 +149,12 @@
   async function copyText(text, button, idleLabel) {
     try {
       await navigator.clipboard.writeText(text);
-      button.textContent = 'Copied';
+      button.textContent = 'Copiado';
       setTimeout(() => {
         button.textContent = idleLabel;
       }, 1200);
     } catch (_error) {
-      button.textContent = 'Clipboard blocked';
+      button.textContent = 'Portapapeles bloqueado';
       setTimeout(() => {
         button.textContent = idleLabel;
       }, 1600);
@@ -175,7 +175,7 @@
 
   async function compareText() {
     compareBtn.disabled = true;
-    compareBtn.textContent = 'Comparing...';
+    compareBtn.textContent = 'Comparando...';
 
     try {
       const response = await fetch(cfg.compareEndpoint, {
@@ -203,7 +203,7 @@
       setStats({ similarity: '--', equalLines: '--', leftLines: '--', rightLines: '--' });
     } finally {
       compareBtn.disabled = false;
-      compareBtn.textContent = 'Compare!';
+      compareBtn.textContent = 'Comparar';
     }
   }
 
@@ -250,11 +250,11 @@
   });
 
   copyLeftBtn.addEventListener('click', () => {
-    copyText(leftText.value, copyLeftBtn, 'Copy left');
+    copyText(leftText.value, copyLeftBtn, 'Copiar izquierda');
   });
 
   copyRightBtn.addEventListener('click', () => {
-    copyText(rightText.value, copyRightBtn, 'Copy right');
+    copyText(rightText.value, copyRightBtn, 'Copiar derecha');
   });
 
   showDiffOnlyBtn.addEventListener('click', () => {

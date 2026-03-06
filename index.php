@@ -28,21 +28,21 @@ $appVersion = Version::value();
   <header class="hero reveal">
     <div class="brand-meta">
       <span class="brand-pill">Nebula Compare</span>
-      <h1>Compara textos con estilo propio</h1>
-      <p>Diff visual en tiempo real con controles avanzados y una interfaz unica.</p>
+      <h1>Compara textos</h1>
+      <p>Diferencias visuales en tiempo real con controles avanzados y una interfaz unica.</p>
     </div>
     <div class="hero-actions">
-      <button id="themeToggle" class="btn icon" type="button" aria-label="Cambiar tema">Dark</button>
+      <button id="themeToggle" class="btn icon" type="button" aria-label="Cambiar tema">Modo oscuro</button>
     </div>
   </header>
 
   <main class="layout reveal">
     <section class="actions-row">
-      <button id="emailBtn" class="btn muted" type="button">Send by email</button>
+      <button id="emailBtn" class="btn muted" type="button">Enviar por correo</button>
       <div class="spacer"></div>
-      <button id="copyLeftBtn" class="btn ghost" type="button">Copy left</button>
-      <button id="copyRightBtn" class="btn ghost" type="button">Copy right</button>
-      <button id="showDiffOnlyBtn" class="btn ghost" type="button">Differences only</button>
+      <button id="copyLeftBtn" class="btn ghost" type="button">Copiar izquierda</button>
+      <button id="copyRightBtn" class="btn ghost" type="button">Copiar derecha</button>
+      <button id="showDiffOnlyBtn" class="btn ghost" type="button">Solo diferencias</button>
     </section>
 
     <section class="compare-wrap">
@@ -58,34 +58,34 @@ $appVersion = Version::value();
       </div>
 
       <div id="statsBar" class="stats-bar">
-        <span>Similarity: --%</span>
-        <span>Equal lines: --</span>
-        <span>Lines A/B: --/--</span>
+        <span>Similitud: --%</span>
+        <span>Lineas iguales: --</span>
+        <span>Lineas A/B: --/--</span>
       </div>
 
       <div id="editorsArea" class="editors-grid">
         <label class="editor-box">
           <span>Texto fuente A</span>
-          <textarea id="leftText" placeholder="Paste first text here..."></textarea>
+          <textarea id="leftText" placeholder="Pega aqui el primer texto..."></textarea>
         </label>
         <label class="editor-box">
           <span>Texto fuente B</span>
-          <textarea id="rightText" placeholder="Paste second text here..."></textarea>
+          <textarea id="rightText" placeholder="Pega aqui el segundo texto..."></textarea>
         </label>
       </div>
 
       <section class="controls-row">
-        <button id="editToggleBtn" class="btn ghost" type="button">Edit texts ...</button>
-        <button id="swapBtn" class="btn ghost" type="button">Switch texts</button>
-        <button id="compareBtn" class="btn primary" type="button">Compare!</button>
-        <button id="clearBtn" class="btn ghost" type="button">Clear all</button>
+        <button id="editToggleBtn" class="btn ghost" type="button">Editar textos ...</button>
+        <button id="swapBtn" class="btn ghost" type="button">Intercambiar textos</button>
+        <button id="compareBtn" class="btn primary" type="button">Comparar</button>
+        <button id="clearBtn" class="btn ghost" type="button">Limpiar todo</button>
       </section>
     </section>
   </main>
 
   <footer class="footer reveal">
     <span id="appVersion">Version <?= htmlspecialchars($appVersion, ENT_QUOTES, 'UTF-8') ?></span>
-    <span>Apache License 2.0</span>
+    <span>Licencia Apache 2.0</span>
   </footer>
 
   <script>

@@ -1,4 +1,4 @@
-name: Release On Main Push
+name: Release En Push A Main
 
 on:
   push:
@@ -12,79 +12,79 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Descargar codigo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Validate release files changed
+      - name: Validar cambios en archivos de release
         run: |
           BEFORE_SHA="${{ github.event.before }}"
           CURRENT_SHA="${{ github.sha }}"
 
           if [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
-            echo "Initial push detected. Skipping file-change validation."
+            echo "Push inicial detectado. Se omite validacion de cambios."
             exit 0
           fi
 
           CHANGED_FILES=$(git diff --name-only "$BEFORE_SHA" "$CURRENT_SHA")
 
           if ! echo "$CHANGED_FILES" | grep -qx "VERSION"; then
-            echo "VERSION was not updated in this push."
-            echo "Every push to main must increment VERSION (Vx.x.x)."
+            echo "VERSION no fue actualizado en este push."
+            echo "Cada push a main debe incrementar VERSION (Vx.x.x)."
             exit 1
           fi
 
           if ! echo "$CHANGED_FILES" | grep -qx "CHANGELOG.md"; then
-            echo "CHANGELOG.md was not updated in this push."
-            echo "Every push to main must document release notes."
+            echo "CHANGELOG.md no fue actualizado en este push."
+            echo "Cada push a main debe documentar notas de version."
             exit 1
           fi
 
-      - name: Read VERSION
+      - name: Leer VERSION
         id: version
         run: |
           VERSION=$(tr -d '\n\r' < VERSION)
           if [[ ! "$VERSION" =~ ^V[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Invalid VERSION format: $VERSION"
-            echo "Expected format: Vx.x.x"
+            echo "Formato VERSION invalido: $VERSION"
+            echo "Formato esperado: Vx.x.x"
             exit 1
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Validate CHANGELOG top version matches VERSION
+      - name: Validar coincidencia entre VERSION y CHANGELOG
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           TOP_CHANGELOG_VERSION=$(grep -m1 -E '^## V[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | awk '{print $2}')
 
           if [ -z "$TOP_CHANGELOG_VERSION" ]; then
-            echo "Could not find a version header in CHANGELOG.md"
+            echo "No se encontro cabecera de version en CHANGELOG.md"
             exit 1
           fi
 
           if [ "$TOP_CHANGELOG_VERSION" != "$VERSION" ]; then
-            echo "Mismatch between VERSION and CHANGELOG.md"
-            echo "VERSION is: $VERSION"
-            echo "CHANGELOG top header is: $TOP_CHANGELOG_VERSION"
+            echo "VERSION y CHANGELOG.md no coinciden"
+            echo "VERSION es: $VERSION"
+            echo "Cabecera superior de CHANGELOG: $TOP_CHANGELOG_VERSION"
             exit 1
           fi
 
-      - name: Create unique tag for this commit
+      - name: Crear tag unico para este commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           TAG="${{ steps.version.outputs.version }}"
 
           if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
-            echo "Tag ${TAG} already exists on origin."
-            echo "Increment VERSION before pushing (example: V1.0.3)."
+            echo "El tag ${TAG} ya existe en origin."
+            echo "Incrementa VERSION antes de hacer push (ejemplo: V1.0.3)."
             exit 1
           fi
 
           git tag -a "${TAG}" -m "Release ${TAG}"
           git push origin "${TAG}"
 
-      - name: Create GitHub Release
+      - name: Crear release de GitHub
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.version }}

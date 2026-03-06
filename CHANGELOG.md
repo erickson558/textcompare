@@ -1,5 +1,13 @@
 # Changelog
 
+## V1.2.1 - 2026-03-05
+
+- Traduccion completa al espanol de los textos visibles en la interfaz.
+- Traduccion al espanol de mensajes dinamicos en JavaScript (tema, estados, botones, mensajes de copia y placeholders).
+- Ajuste de documentacion para reflejar etiquetas y mensajes actuales en espanol.
+- Traduccion al espanol de mensajes de error expuestos por la API de comparacion.
+- Traduccion al espanol de nombres descriptivos y mensajes del workflow de release.
+
 ## V1.2.0 - 2026-03-05
 
 - Rediseño visual completo con identidad propia `Nebula Compare` para evitar apariencia de copia exacta.
