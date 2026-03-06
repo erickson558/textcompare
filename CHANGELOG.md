@@ -1,5 +1,10 @@
 # Changelog
 
+## V1.0.2 - 2026-03-05
+
+- Correccion del workflow de release para evitar fallo cuando el tag ya existe en el mismo commit.
+- Validacion de consistencia: si el tag existe pero apunta a otro commit, el pipeline falla con mensaje para incrementar version.
+
 ## V1.0.1 - 2026-03-05
 
 - Correccion de error 500 por incompatibilidad de sintaxis con PHP 5.4.
