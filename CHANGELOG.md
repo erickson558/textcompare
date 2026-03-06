@@ -1,5 +1,13 @@
 # Changelog
 
+## V1.2.0 - 2026-03-05
+
+- Rediseño visual completo con identidad propia `Nebula Compare` para evitar apariencia de copia exacta.
+- Fondo aurora animado con orbes, textura de grilla y capas glassmorphism.
+- Mejoras de microinteracciones: brillo en CTA principal, animacion de pulso al hacer click y transiciones mas suaves.
+- Cabecera renovada con branding, subtitulo explicativo y controles mas claros.
+- Ajustes responsive para mejor lectura y usabilidad en pantallas moviles.
+
 ## V1.1.0 - 2026-03-05
 
 - Rediseño de interfaz para acercarla a la experiencia de text-compare.com.

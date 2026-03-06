@@ -27,7 +27,7 @@
   function applyTheme(theme) {
     const selected = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', selected);
-    themeToggle.textContent = selected === 'dark' ? 'Light' : 'Dark';
+    themeToggle.textContent = selected === 'dark' ? 'Switch to Light' : 'Switch to Dark';
     localStorage.setItem(themeKey, selected);
   }
 
@@ -138,7 +138,7 @@
   }
 
   function makeMailtoUrl() {
-    const subject = encodeURIComponent('Text comparison result');
+    const subject = encodeURIComponent('Nebula Compare result');
     const body = encodeURIComponent(
       ['Left text:', leftText.value, '', 'Right text:', rightText.value].join('\n')
     );
@@ -260,6 +260,15 @@
   showDiffOnlyBtn.addEventListener('click', () => {
     setDiffOnly(!isShowingDiffOnly);
     compareText();
+  });
+
+  [emailBtn, copyLeftBtn, copyRightBtn, showDiffOnlyBtn, editToggleBtn, swapBtn, compareBtn, clearBtn].forEach((button) => {
+    button.addEventListener('pointerup', () => {
+      button.classList.remove('pulse');
+      void button.offsetWidth;
+      button.classList.add('pulse');
+      setTimeout(() => button.classList.remove('pulse'), 320);
+    });
   });
 
   leftResult.addEventListener('scroll', () => syncScroll(leftResult, rightResult));
