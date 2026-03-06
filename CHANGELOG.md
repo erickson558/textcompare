@@ -1,5 +1,13 @@
 # Changelog
 
+## V1.1.0 - 2026-03-05
+
+- Rediseño de interfaz para acercarla a la experiencia de text-compare.com.
+- Vista de resultados lado a lado con numeración de líneas y sincronización de scroll.
+- Nuevos botones y flujos: `Email this comparison`, `Edit texts ...`, `Switch texts`, `Compare!`, `Clear all`, `Copy left/right`, `Differences only`.
+- Persistencia local de preferencias de tema, visibilidad de editores y filtro de diferencias.
+- Endurecimiento del workflow: validación de coincidencia exacta entre `VERSION` y la cabecera superior de `CHANGELOG.md`.
+
 ## V1.0.3 - 2026-03-05
 
 - Workflow de release endurecido para exigir `VERSION` y `CHANGELOG.md` actualizados en cada push a `main`.

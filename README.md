@@ -1,6 +1,6 @@
 # TextCompare Pro
 
-Comparador de textos moderno en PHP con arquitectura separada entre backend y frontend.
+Comparador de textos en PHP + JavaScript con experiencia inspirada en text-compare.com, arquitectura separada entre backend y frontend y versionado estricto `Vx.x.x`.
 
 ## Caracteristicas
 
@@ -10,8 +10,10 @@ Comparador de textos moderno en PHP con arquitectura separada entre backend y fr
   - lineas agregadas
   - lineas eliminadas
 - Frontend desacoplado (`frontend/assets`) con:
-  - interfaz responsive
-  - animaciones de entrada y resultados
+  - interfaz responsive tipo text-compare (desktop/movil)
+  - resultados lado a lado con numeracion de lineas
+  - scroll sincronizado entre paneles
+  - botones de productividad: comparar, limpiar, intercambiar, editar, copiar, enviar por email y filtrar diferencias
   - modo claro y modo oscuro
 - Version centralizada en archivo `VERSION` para mantener consistencia entre app, Git y releases.
 
@@ -48,6 +50,7 @@ textcompare/
 
 - Backend: PHP nativo (sin Composer en esta version).
 - Frontend: HTML/CSS/JavaScript nativo (sin build step).
+- Runtime del navegador: API `fetch`, `localStorage`, `navigator.clipboard` (con fallback visual en caso de bloqueo).
 - CDN usados en runtime: Google Fonts.
 
 ## Ejecucion local
@@ -109,13 +112,35 @@ Para cada commit de producto:
 2. Actualizar `CHANGELOG.md`.
 3. Commit con mensaje claro.
 4. Push a `main`.
-5. Workflow valida `Vx.x.x`, crea tag anotado y genera release automaticamente.
+5. Workflow valida `Vx.x.x`, valida que el `CHANGELOG.md` comience con la misma version, crea tag anotado y genera release automaticamente.
 
 Checklist recomendado por commit:
 
 1. Confirmar que `VERSION`, `CHANGELOG.md` y app muestran la misma version.
 2. No reutilizar versiones previas; cada commit en `main` debe tener una version nueva.
 3. Hacer `push` solo de la rama `main` (el workflow se encarga del tag/release).
+
+## Botones y funciones principales
+
+- `Email this comparison`: abre el cliente de correo con ambos textos en el cuerpo.
+- `Edit texts ...` / `Hide texts`: muestra u oculta los editores.
+- `Switch texts`: intercambia texto A y B y relanza la comparacion.
+- `Compare!`: solicita el diff al backend y actualiza paneles + metricas.
+- `Clear all`: limpia ambos textos y reinicia resultados.
+- `Copy left` / `Copy right`: copia texto fuente al portapapeles.
+- `Differences only`: oculta temporalmente lineas sin cambios.
+
+## Release automatica por push
+
+Archivo: `.github/workflows/release.yml`
+
+En cada push a `main`:
+
+1. Exige cambios en `VERSION` y `CHANGELOG.md`.
+2. Valida formato `VERSION` en `Vx.x.x`.
+3. Valida que la cabecera superior de `CHANGELOG.md` coincida con `VERSION`.
+4. Rechaza tags existentes (obliga version nueva).
+5. Crea tag anotado y publica GitHub Release.
 
 ## Seguridad y buenas practicas
 
