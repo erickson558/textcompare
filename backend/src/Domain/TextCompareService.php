@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace TextCompare\Domain;
 
 final class TextCompareService
@@ -9,7 +7,7 @@ final class TextCompareService
     /**
      * @return array{operations: array<int, array{type: string, text: string}>, stats: array{leftLines: int, rightLines: int, equalLines: int, similarity: float}}
      */
-    public function compare(string $left, string $right): array
+    public function compare($left, $right)
     {
         $leftLines = $this->splitLines($left);
         $rightLines = $this->splitLines($right);
@@ -25,26 +23,26 @@ final class TextCompareService
 
         $maxLines = max(count($leftLines), count($rightLines), 1);
 
-        return [
+        return array(
             'operations' => $operations,
-            'stats' => [
+            'stats' => array(
                 'leftLines' => count($leftLines),
                 'rightLines' => count($rightLines),
                 'equalLines' => $equalLines,
                 'similarity' => round(($equalLines / $maxLines) * 100, 2),
-            ],
-        ];
+            ),
+        );
     }
 
     /**
      * @return string[]
      */
-    private function splitLines(string $text): array
+    private function splitLines($text)
     {
         $normalized = str_replace(["\r\n", "\r"], "\n", trim($text));
 
         if ($normalized === '') {
-            return [];
+            return array();
         }
 
         return explode("\n", $normalized);
@@ -56,7 +54,7 @@ final class TextCompareService
      *
      * @return array<int, array{type: string, text: string}>
      */
-    private function buildLineDiff(array $left, array $right): array
+    private function buildLineDiff($left, $right)
     {
         $leftCount = count($left);
         $rightCount = count($right);
@@ -73,25 +71,25 @@ final class TextCompareService
             }
         }
 
-        $operations = [];
+        $operations = array();
         $i = $leftCount;
         $j = $rightCount;
 
         while ($i > 0 || $j > 0) {
             if ($i > 0 && $j > 0 && $left[$i - 1] === $right[$j - 1]) {
-                $operations[] = ['type' => 'equal', 'text' => $left[$i - 1]];
+                $operations[] = array('type' => 'equal', 'text' => $left[$i - 1]);
                 $i--;
                 $j--;
                 continue;
             }
 
             if ($j > 0 && ($i === 0 || $lcs[$i][$j - 1] >= $lcs[$i - 1][$j])) {
-                $operations[] = ['type' => 'add', 'text' => $right[$j - 1]];
+                $operations[] = array('type' => 'add', 'text' => $right[$j - 1]);
                 $j--;
                 continue;
             }
 
-            $operations[] = ['type' => 'remove', 'text' => $left[$i - 1]];
+            $operations[] = array('type' => 'remove', 'text' => $left[$i - 1]);
             $i--;
         }
 

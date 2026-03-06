@@ -38,10 +38,17 @@ textcompare/
 
 ## Requisitos
 
-- PHP 8.0 o superior recomendado.
+- PHP 5.4 o superior (compatible con EasyPHP 14.1b2).
+- Recomendado para desarrollo moderno: PHP 8.x.
 - Servidor local (EasyPHP, Apache, etc.).
 - Git.
 - GitHub CLI (`gh`) para crear el repositorio desde terminal.
+
+## Dependencias
+
+- Backend: PHP nativo (sin Composer en esta version).
+- Frontend: HTML/CSS/JavaScript nativo (sin build step).
+- CDN usados en runtime: Google Fonts.
 
 ## Ejecucion local
 
@@ -103,6 +110,12 @@ Para cada commit de producto:
 3. Commit con mensaje claro.
 4. Push a `main`.
 5. Workflow crea release/tag usando la version del archivo.
+
+Checklist recomendado por commit:
+
+1. Confirmar que `VERSION`, `CHANGELOG.md` y app muestran la misma version.
+2. Crear tag Git igual al contenido de `VERSION`.
+3. Hacer `push` de rama y tags.
 
 ## Seguridad y buenas practicas
 
